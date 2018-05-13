@@ -1,4 +1,4 @@
-name: landsat-osm-replication
+name: landsat-osm
 channels:
   - conda-forge
   - defaults
