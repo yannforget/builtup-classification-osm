@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Web report</title>
+    <meta charset='utf-8' />
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/leaflet.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/leaflet.js"></script>
+    <script src="js/leaflet-providers.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="row" id="cities">
+
+            <div class="col-md-12 text-center">
+
+                <button type="button" , class="btn" , onclick='displayMap("antananarivo")'>Antananarivo</button>
+                <button type="button" , class="btn" , onclick='displayMap("chimoio")'>Chimoio</button>
+                <button type="button" , class="btn" , onclick='displayMap("dakar")'>Dakar</button>
+                <button type="button" , class="btn" , onclick='displayMap("gao")'>Gao</button>
+                <button type="button" , class="btn" , onclick='displayMap("johannesburg")'>Johannesburg</button>
+                <button type="button" , class="btn" , onclick='displayMap("kampala")'>Kampala</button>
+                <button type="button" , class="btn" , onclick='displayMap("katsina")'>Katsina</button>
+                <button type="button" , class="btn" , onclick='displayMap("nairobi")'>Nairobi</button>
+                <button type="button" , class="btn" , onclick='displayMap("saint_louis")'>Saint-Louis</button>
+                <button type="button" , class="btn" , onclick='displayMap("windhoek")'>Windhoek</button>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div id="map"></div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        var mapbox = L.tileLayer(
+            'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+            {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                maxZoom: 15,
+                id: 'mapbox.streets',
+                accessToken: 'pk.eyJ1IjoieWFubmZvcmdldCIsImEiOiJjamgzYXR1d3UwZDN6MnhtcjBnYno3cDBwIn0.-niyuGtiqe_osXNIevrb5Q'
+            }
+        );
+
+        var esri = L.tileLayer(
+            'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+            {
+                attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+                maxZoom: 15,
+            }
+        );
+
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                if (xhr.overrideMimeType) {
+                    xhr.overrideMimeType("application/json");
+                }
+            }
+        });
+
+        var map = L.map(
+            'map',
+            {
+                layers: [esri],
+                maxZoom: 15,
+                minZoom: 11
+            }
+        );
+
+        var controller = L.control.layers(
+            { 'Satellite': esri, 'OSM': mapbox }
+        ).addTo(map);
+
+        function displayMap(city) {
+
+            controller.remove();
+
+            var results = new L.tileLayer('data/' + city + '/result_tiles/{z}/{x}/{y}.png', { tms: true, opacity: 0.7 });
+            var train = new L.tileLayer('data/' + city + '/train_tiles/{z}/{x}/{y}.png', { tms: true, opacity: 0.7 });
+            var test = new L.tileLayer('data/' + city + '/test_tiles/{z}/{x}/{y}.png', { tms: true, opacity: 0.7 });
+
+            $.getJSON('data/' + city + '/bounds.json', function (bounds) {
+
+                var lat_center = bounds.lat_min + (bounds.lat_max - bounds.lat_min) / 2;
+                var lon_center = bounds.lon_min + (bounds.lon_max - bounds.lon_min) / 2;
+
+                map.setView([lat_center, lon_center], 11);
+                map.setMaxBounds([
+                    [bounds.lat_min, bounds.lon_min],
+                    [bounds.lat_max, bounds.lon_max]
+                ]);
+            });
+
+            controller = L.control.layers(
+                { 'Satellite': esri, 'OSM': mapbox },
+                { 'Results': results, 'Training samples': train, 'Reference samples': test },
+                { collapsed: false }
+            ).addTo(map);
+
+            map.addLayer(results);
+
+        };
+
+    </script>
+
+</body>
+
+
+</html>
