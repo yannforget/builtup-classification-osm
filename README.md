@@ -22,7 +22,7 @@ conda activate landsat-osm
 
 # Data
 
-Due to storage constraints, input data is not integrated to this repository. However, [`input`]("http://data.yannforget.me/papers/landsat-osm/data/input.zip") and [`intermediary`]("http://data.yannforget.me/papers/landsat-osm/data/intermediary.zip") data archives can be downloaded from a public HTTP server. Both archives must be extracted in the `data` directory.
+Due to storage constraints, input data is not integrated to this repository. However, [input]("http://data.yannforget.me/papers/landsat-osm/data/input.zip") and [intermediary]("http://data.yannforget.me/papers/landsat-osm/data/intermediary.zip") data archives can be downloaded from a public HTTP server. Both archives must be extracted in the `data` directory. Alternatively, [output]("http://data.yannforget.me/papers/landsat-osm/data/output.zip) files of the study can be directly downloaded.
 
 ``` sh
 # Create directories

@@ -51,6 +51,8 @@
 
     <script>
 
+        var base_url = 'http://data.yannforget.me/papers/landsat-osm/data/reports/data/'
+
         var mapbox = L.tileLayer(
             'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
             {
@@ -94,11 +96,11 @@
 
             controller.remove();
 
-            var results = new L.tileLayer('data/' + city + '/result_tiles/{z}/{x}/{y}.png', { tms: true, opacity: 0.7 });
-            var train = new L.tileLayer('data/' + city + '/train_tiles/{z}/{x}/{y}.png', { tms: true, opacity: 0.7 });
-            var test = new L.tileLayer('data/' + city + '/test_tiles/{z}/{x}/{y}.png', { tms: true, opacity: 0.7 });
+            var results = new L.tileLayer(base_url + city + '/result_tiles/{z}/{x}/{y}.png', { tms: true, opacity: 0.7 });
+            var train = new L.tileLayer(base_url + city + '/train_tiles/{z}/{x}/{y}.png', { tms: true, opacity: 0.7 });
+            var test = new L.tileLayer(base_url + city + '/test_tiles/{z}/{x}/{y}.png', { tms: true, opacity: 0.7 });
 
-            $.getJSON('data/' + city + '/bounds.json', function (bounds) {
+            $.getJSON(base_url + city + '/bounds.json', function (bounds) {
 
                 var lat_center = bounds.lat_min + (bounds.lat_max - bounds.lat_min) / 2;
                 var lon_center = bounds.lon_min + (bounds.lon_max - bounds.lon_min) / 2;
