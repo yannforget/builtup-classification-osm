@@ -2,6 +2,8 @@
 
 This repository contains all the code required to reproduce the results presented in the following paper: "Y. Forget, C. Linard, M. Gilbert. *Supervised Classification of Built-up Areas in Sub-Saharan African Cities using Landsat Imagery and OpenStreetMap*."
 
+Results of the study can be previewed [here](https://yannforget.github.io/builtup-classification-osm/) in interactive maps.
+
 # Dependencies
 
 Dependencies are listed in the `environment.yml` file at the root of the repository. Using the [Anaconda](https://www.anaconda.com/download) distribution, a virtual environment containing all the required dependencies can be created automatically:

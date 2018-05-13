@@ -1,0 +1,20 @@
+# python
+__pycache__/
+*.egg-info/
+*.egg
+*.manifest
+.ipynb_checkpoints
+
+# project
+data/output
+data/input/afripop
+data/input/ghsl
+data/input/hbase
+data/input/landsat
+data/input/osm
+data/input/reference
+data/input/seas
+data/intermediary
+reports/
+paper/
+.vscode
