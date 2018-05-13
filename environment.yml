@@ -1,0 +1,19 @@
+name: landsat-osm-replication
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - fiona=1.7.*
+  - gdal=2.2.*
+  - geopandas=0.3.*
+  - jupyter=1.0.*
+  - matplotlib=2.1.*
+  - numpy=1.14.*
+  - pandas=0.22.*
+  - pyproj=1.9.*
+  - python=3.6.*
+  - rasterio=0.36.*
+  - scikit-learn=0.19.*
+  - scipy=1.0.*
+  - shapely=1.6.*
+  - tqdm=4.22.*
