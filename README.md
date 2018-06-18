@@ -1,8 +1,12 @@
 # Description
 
-This repository contains all the code required to reproduce the results presented in the following paper: "Y. Forget, C. Linard, M. Gilbert. *Supervised Classification of Built-up Areas in Sub-Saharan African Cities using Landsat Imagery and OpenStreetMap*."
+This repository contains all the code required to reproduce the results presented in the following paper:
 
-Results of the study can be previewed [here](https://yannforget.github.io/builtup-classification-osm/) in interactive maps.
+* Y. Forget, C. Linard, M. Gilbert. *Supervised Classification of Built-up Areas in Sub-Saharan African Cities using Landsat Imagery and OpenStreetMap*, 2018.
+
+The results of the study can be explored [here](http://maupp.ulb.ac.be/page/forget2018/) in an interactive map.
+
+Input, intermediary and output data can be downloaded from [zenodo](https://zenodo.org/record/1291961).
 
 # Dependencies
 
@@ -24,23 +28,32 @@ conda activate landsat-osm
 
 # Data
 
-Due to storage constraints, input data is not integrated to this repository. However, [input]("http://data.yannforget.me/papers/landsat-osm/data/input.zip") and [intermediary]("http://data.yannforget.me/papers/landsat-osm/data/intermediary.zip") data archives can be downloaded from a public HTTP server. Both archives must be extracted in the `data` directory. Alternatively, [output]("http://data.yannforget.me/papers/landsat-osm/data/output.zip) files of the study can be directly downloaded.
+Due to storage constraints, input data are not integrated to this repository. However, input and intermediary files required to run the analysis can be downloaded from a [zenodo deposit](https://zenodo.org/record/1291961). Alternatively, output files of the study can be directly downloaded from this repository. To run the following code, input and intermediary files must be downloaded in the `/data` folder. For example, in Linux:
 
 ``` sh
-# Create directories
-cd built-up-classification-osm
+# Create the data directory
+cd builtup-classification-osm
 mkdir data
 cd data
 
-# Download data archives
-wget "http://data.yannforget.me/papers/landsat-osm/data/input.zip"
-wget "http://data.yannforget.me/papers/landsat-osm/data/intermediary.zip"
+# Download input and intermediary data
+wget -O input.zip https://zenodo.org/record/1291961/files/input.zip?download=1
+wget -O intermediary.zip https://zenodo.org/record/1291961/files/intermediary.zip?download=1
 
-# Decompress archives
+# Decompress the archives
 unzip input.zip
-rm input.zip
 unzip intermediary.zip
-rm intermediary.zip
+rm *.zip
+```
+
+Likewise, the Global Humans Settlements Layer is required to run the notebook `02-External_Datasets.ipynb`:
+
+``` sh
+cd builtup-classification-osm/data/input
+wget http://cidportal.jrc.ec.europa.eu/ftp/jrc-opendata/GHSL/GHS_BUILT_LDSMT_GLOBE_R2015B/GHS_BUILT_LDSMT_GLOBE_R2015B_3857_38/V1-0/GHS_BUILT_LDSMT_GLOBE_R2015B_3857_38_v1_0.zip
+unzip GHS_BUILT_LDSMT_GLOBE_R2015B_3857_38_v1_0.zip
+rm GHS_BUILT_LDSMT_GLOBE_R2015B_3857_38_v1_0.zip
+mv GHS_BUILT_LDSMT_GLOBE_R2015B_3857_38_v1_0 ghsl
 ```
 
 # Code
