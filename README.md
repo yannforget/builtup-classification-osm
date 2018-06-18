@@ -58,7 +58,7 @@ mv GHS_BUILT_LDSMT_GLOBE_R2015B_3857_38_v1_0 ghsl
 
 # Code
 
-The code of the analysis in divided in two parts: the Python scripts and modules used to support the analysis, and the notebooks where the outputs of the analysis has been produced.
+The code of the analysis in divided in two parts: the Python scripts and modules used to support the analysis, and the notebooks where the outputs of the analysis have been produced.
 
 ## Notebooks
 
@@ -69,6 +69,15 @@ The code of the analysis in divided in two parts: the Python scripts and modules
 * `notebooks/05-Urban_Blocks.ipynb` : Assessment of OSM-based urban blocks as built-up training samples.
 * `notebooks/06-Urban_Distance.ipynb` : Assessment of OSM-based urban distance as non-built-up training samples.
 * `notebooks/07-Comparative_Analysis.ipynb` : Supervised classification of built-up areas.
+
+To run the notebooks, `input` and `intermediary` data must have been downloaded (see above). Additionnaly, the following pre-processing scripts must be executed:
+
+``` sh
+python src/preprocess_reference.py
+python src/preprocess_osm.py
+```
+
+The outputs of the other pre-processing scripts are already included in the `intermediary` zenodo archive.
 
 ## Scripts
 
