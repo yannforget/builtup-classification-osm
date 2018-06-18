@@ -10,7 +10,6 @@ import pandas as pd
 import rasterio
 from shapely.geometry import MultiLineString, shape, mapping
 from shapely.ops import linemerge
-from tqdm import tqdm
 
 import raster as rst
 from metadata import CITIES, DATA_DIR, City
@@ -78,7 +77,7 @@ def nonbuilt_raster(nonbuilt, profile):
         OSM non-built features in a geodataframe.
     profile : dict
         Main rasterio profile used for rasterization.
-    
+
     Returns
     -------
     nonbuilt_raster : 2D numpy array
@@ -95,7 +94,7 @@ def nonbuilt_raster(nonbuilt, profile):
     tags_map = {tag: i+1 for i, tag in enumerate(unique_tags)}
 
     # Rasterize
-    geoms = [mapping (geom) for geom in nonbuilt.geometry]
+    geoms = [mapping(geom) for geom in nonbuilt.geometry]
     tags = [tags_map[tag] for tag in nonbuilt.tag]
     shapes = ((geom, tag) for geom, tag in zip(geoms, tags))
 
@@ -113,8 +112,8 @@ def nonbuilt_raster(nonbuilt, profile):
 
 def urban_blocks(roads, aoi, types_of_roads=None):
     """Extract urban blocks from the road network. Here, blocks are defined as
-    the difference between the whole area of interest and the buffered road network.
-    Roads and AOI must have the same CRS.
+    the difference between the whole area of interest and the buffered road
+    network. Roads and AOI must have the same CRS.
 
     Parameters
     ----------
@@ -135,7 +134,7 @@ def urban_blocks(roads, aoi, types_of_roads=None):
     # Only include the provided road types
     if types_of_roads:
         roads = roads[roads.highway.isin(types_of_roads)]
-    
+
     # Clean the roads geodataframe. If some geometries are
     # MultiLineString, convert them to multiple LineStrings
     def _to_linestrings(geoms):
@@ -175,7 +174,7 @@ def urban_blocks_raster(blocks, profile):
         OSM blocks as returned by `urban_blocks()`.
     profile : dict
         Main rasterio profile used for rasterization.
-    
+
     Returns
     -------
     urban_blocks : 2D numpy array
@@ -185,7 +184,8 @@ def urban_blocks_raster(blocks, profile):
     surfaces = surfaces.apply(round, ndigits=2)
     blocks = blocks.assign(surface=surfaces)
 
-    shapes = ((mapping(geom), surface) for _, (_, geom, surface) in blocks.iterrows())
+    shapes = ((mapping(geom), surface)
+              for _, (_, geom, surface) in blocks.iterrows())
 
     blocks_r = rasterio.features.rasterize(
         shapes=shapes,
@@ -281,7 +281,6 @@ def preprocess(city_name):
     city = City(city_name)
 
     osm_dir = os.path.join(city.intermediary_dir, 'osm')
-    mask_dir = os.path.join(city.intermediary_dir, 'masks')
 
     # OSM non-built shapefile
     out_f = os.path.join(osm_dir, 'nonbuilt.shp')
@@ -348,8 +347,9 @@ def preprocess(city_name):
         profile.update(dtype=np.uint8, nodata=None)
         with rasterio.open(out_f, 'w', **profile) as dst:
             dst.write(water.astype(np.uint8), 1)
-    
+
     return
+
 
 if __name__ == '__main__':
 
@@ -359,6 +359,6 @@ if __name__ == '__main__':
         p = mp.Process(target=preprocess, args=(city_name,))
         processes.append(p)
         p.start()
-    
+
     for p in processes:
         p.join()

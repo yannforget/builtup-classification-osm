@@ -12,7 +12,7 @@ MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_DIR = os.path.abspath(os.path.join(MODULE_DIR, '..'))
 DATA_DIR = os.path.join(PROJECT_DIR, 'data')
 
-# Cities to process
+# Cities to process
 CITIES = [
     'antananarivo',
     'chimoio',
