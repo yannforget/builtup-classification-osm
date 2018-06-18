@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/133227237.svg)](https://zenodo.org/badge/latestdoi/133227237)
+
 # Description
 
 This repository contains all the code required to reproduce the results presented in the following paper:
