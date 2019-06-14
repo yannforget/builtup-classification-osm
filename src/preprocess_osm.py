@@ -102,7 +102,7 @@ def nonbuilt_raster(nonbuilt, profile):
         shapes=shapes,
         fill=0,
         all_touched=False,
-        transform=profile['affine'],
+        transform=profile['transform'],
         out_shape=(profile['height'], profile['width']),
         dtype=np.uint8
     )
@@ -191,7 +191,7 @@ def urban_blocks_raster(blocks, profile):
         shapes=shapes,
         fill=0,
         all_touched=False,
-        transform=profile['affine'],
+        transform=profile['transform'],
         out_shape=(profile['height'], profile['width']),
         dtype=np.float
     )

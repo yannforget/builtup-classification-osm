@@ -13,8 +13,7 @@ import rasterio
 import rasterio.mask
 from tqdm import tqdm
 
-from config import CITIES, DATA_DIR
-from metadata import City
+from metadata import City, CITIES, DATA_DIR
 
 # Landsat 8 bands filenames after pre-processing
 # with Landsat Source Reflectance Code (LaSRC)

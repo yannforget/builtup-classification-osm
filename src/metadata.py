@@ -98,7 +98,7 @@ class City(object):
         landsat_path = os.path.join(self.landsat_dir, 'red.tif')
         with rasterio.open(landsat_path) as geotiff:
             profile = geotiff.profile
-        profile.update(count=1, transform=None)
+        profile.update(count=1)
         return profile
 
     # Accessing data

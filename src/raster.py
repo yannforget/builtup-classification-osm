@@ -26,11 +26,11 @@ def rescale_profile(profile, scale=5):
         Rescaled rasterio profile.
     """
     new_profile = profile.copy()
-    trans = profile['affine']
+    trans = profile['transform']
     trans = rasterio.Affine(
         trans.a / scale, trans.b, trans.c,
         trans.d, trans.e / scale, trans.f)
-    new_profile['affine'] = trans
+    new_profile['transform'] = trans
     new_profile['height'] *= scale
     new_profile['width'] *= scale
     return new_profile
@@ -62,8 +62,8 @@ def rescale_raster(raster, src_profile, dst_profile,
     new_array = np.empty(shape=dst_shape)
     rasterio.warp.reproject(
         raster, new_array,
-        src_transform=src_profile['affine'],
-        dst_transform=dst_profile['affine'],
+        src_transform=src_profile['transform'],
+        dst_transform=dst_profile['transform'],
         src_crs=src_profile['crs'],
         dst_crs=dst_profile['crs'],
         resampling=method)
@@ -116,7 +116,7 @@ def rasterize(
             profile, scale=two_steps_scaling)
         raster = rasterio.features.rasterize(
             shapes=features, fill=0, all_touched=all_touched,
-            transform=rescaled_profile['affine'],
+            transform=rescaled_profile['transform'],
             out_shape=(rescaled_profile['height'], rescaled_profile['width']),
             dtype=dtype)
         return rescale_raster(raster, rescaled_profile, profile)
@@ -124,7 +124,7 @@ def rasterize(
     # Or simple one-step rasterization
     return rasterio.features.rasterize(
         shapes=features, fill=0, all_touched=all_touched,
-        transform=profile['affine'],
+        transform=profile['transform'],
         out_shape=(profile['height'], profile['width']),
         dtype=dtype)
 
@@ -181,8 +181,6 @@ def cdist(src, profile, cache_dir="/tmp"):
     prf = profile.copy()
     prf['dtype'] = str(src.dtype)
     prf['nodata'] = None
-    if 'transform' in prf:
-        del prf['transform']
     src_fname = os.path.join(cache_dir, 'src_raster.tif')
     dst_fname = os.path.join(cache_dir, 'dst_raster.tif')
     for fname in (src_fname, dst_fname):
